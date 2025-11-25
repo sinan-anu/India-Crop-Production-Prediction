@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .nav-links {
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin-right: 20px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card p {
+            opacity: 0.9;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .status-active {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .status-completed {
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 Admin Dashboard</h1>
+            <p>View all users, their visits, and predictions</p>
+            <div class="nav-links">
+                <a href="{{ url_for('prediction') }}">Back to Prediction</a>
+                <a href="{{ url_for('about') }}">About</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </div>
+        </div>
+        
+        <!-- Statistics -->
+        <div class="section">
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>{{ users|length }}</h3>
+                    <p>Total Users</p>
+                </div>
+                <div class="stat-card">
+                    <h3>{{ predictions|length }}</h3>
+                    <p>Total Predictions</p>
+                </div>
+                <div class="stat-card">
+                    <h3>{{ sessions|length }}</h3>
+                    <p>Total Sessions</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Most Predicted Crops Graph -->
+        {% if crop_graph_path %}
+        <div class="section">
+            <h2>📈 Most Predicted Crops</h2>
+            <div style="text-align: center; padding: 20px;">
+                <img src="{{ url_for('static', filename='most_predicted_crops.png') }}" 
+                     alt="Most Predicted Crops Graph" 
+                     style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Users Section -->
+        <div class="section">
+            <h2>👥 All Users</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Visit Count</th>
+                            <th>Prediction Count</th>
+                            <th>Last Login</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if users %}
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.firstname or '' }} {{ user.lastname or '' }}</td>
+                                <td>{{ user.email or 'N/A' }}</td>
+                                <td>{{ user.visit_count or 0 }}</td>
+                                <td>{{ user.prediction_count or 0 }}</td>
+                                <td>{{ user.last_login or 'Never' }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 20px;">No users found.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Predictions Section -->
+        <div class="section">
+            <h2>📊 All Predictions ({{ predictions|length }} total)</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Year</th>
+                            <th>Crop</th>
+                            <th>Season</th>
+                            <th>State</th>
+                            <th>Area</th>
+                            <th>Production</th>
+                            <th>Rainfall</th>
+                            <th>Fertilizer</th>
+                            <th>Pesticide</th>
+                            <th>Predicted Yield</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if predictions %}
+                            {% for pred in predictions %}
+                            <tr>
+                                <td>{{ pred.id }}</td>
+                                <td>{{ pred.user_name or 'N/A' }}</td>
+                                <td>{{ pred.email or 'N/A' }}</td>
+                                <td>{{ pred.year if pred.year is not none else 'N/A' }}</td>
+                                <td>{{ pred.crop or 'N/A' }}</td>
+                                <td>{{ pred.season or 'N/A' }}</td>
+                                <td>{{ pred.state or 'N/A' }}</td>
+                                <td>{{ pred.area|safe_format }}</td>
+                                <td>{{ pred.production|safe_format }}</td>
+                                <td>{{ pred.annual_rainfall|safe_format }}</td>
+                                <td>{{ pred.fertilizer|safe_format }}</td>
+                                <td>{{ pred.pesticide|safe_format }}</td>
+                                <td><strong>{{ pred.yield_value|safe_format }}</strong></td>
+                                <td>{{ pred.timestamp or 'N/A' }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="14" style="text-align: center; padding: 20px;">No predictions found.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Sessions Section -->
+        <div class="section">
+            <h2>🔍 User Sessions (Login History)</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Login Time</th>
+                            <th>Logout Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if sessions %}
+                            {% for session in sessions %}
+                            <tr>
+                                <td>{{ session.id }}</td>
+                                <td>{{ session.user_name or 'N/A' }}</td>
+                                <td>{{ session.email or 'N/A' }}</td>
+                                <td>{{ session.login_time or 'N/A' }}</td>
+                                <td>{{ session.logout_time or 'Still Active' }}</td>
+                                <td>
+                                    <span class="{% if session.status == 'Active' %}status-active{% else %}status-completed{% endif %}">
+                                        {{ session.status or 'N/A' }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 20px;">No sessions found.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

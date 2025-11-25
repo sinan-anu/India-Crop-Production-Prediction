@@ -1,0 +1,83 @@
+/* Background image - Crop field */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: url('{{ url_for("static", filename="images/crop_field.jpg") }}') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Dark overlay to improve readability */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 70, 0, 0.5);
+    z-index: 1;
+}
+
+/* Signup form */
+.form-container {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 25px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+    color: #2c6e49;
+    font-size: 24px;
+}
+
+.form-container input {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.form-container button {
+    width: 95%;
+    padding: 12px;
+    background: #2c6e49;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.form-container button:hover {
+    background: #1e4d34;
+}
+
+.form-container p {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.form-container a {
+    color: #2c6e49;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.form-container a:hover {
+    text-decoration: underline;
+}

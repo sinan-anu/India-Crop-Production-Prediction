@@ -1,0 +1,224 @@
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated Background */
+.animated-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, #6a11cb, #2575fc, #f093fb, #f5576c, #4facfe, #00f2fe);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    z-index: -1;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Floating Shapes */
+.floating-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.shape {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.shape:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-delay: 0s; }
+.shape:nth-child(2) { width: 120px; height: 120px; left: 80%; animation-delay: 2s; }
+.shape:nth-child(3) { width: 60px; height: 60px; left: 50%; animation-delay: 4s; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+/* Layout Panels */
+.left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.right {
+    flex: 1;
+    background: rgba(249, 249, 249, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Form Container */
+.form-container {
+    width: 80%;
+    max-width: 400px;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #6a11cb;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #6a11cb;
+    box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.1);
+}
+
+/* Checkbox Group */
+.checkbox-group {
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.checkbox-group input[type="checkbox"] { width: auto; margin-top: 2px; }
+
+.checkbox-group label {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.4;
+}
+
+.checkbox-group a {
+    color: #6a11cb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.checkbox-group a:hover { text-decoration: underline; }
+
+/* Buttons */
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Extra Links */
+.extra-links { text-align: center; margin-top: 15px; font-size: 14px; }
+.extra-links a {
+    color: #6a11cb;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+.extra-links a:hover { text-decoration: underline; }
+
+/* Flash Messages */
+.flash {
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.flash.error { 
+    background: #ffe6e6; 
+    color: #cc0000; 
+    border: 1px solid #ffcccc;
+}
+
+.flash.success { 
+    background: #e6ffea; 
+    color: #008000; 
+    border: 1px solid #ccffcc;
+}
+
+.hidden { display: none; }
+
+/* Toggle Button */
+.toggle-btn {
+    background: none;
+    border: none;
+    color: #6a11cb;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Input Focus Animation */
+.form-group:focus-within { transform: translateY(-2px); }

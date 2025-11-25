@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='prediction.css') }}">
+</head>
+<body>
+
+    <!-- Heading -->
+    <header>
+        <h1 class="main-heading">🌾 Crop Yield Prediction Dashboard</h1>
+
+        <!-- Centered Navbar -->
+        <nav>
+            <ul class="navbar">
+                <li><a class="active" href="{{ url_for('prediction') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('admin') }}">Admin Dashboard</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                <li><span class="user-mail">{{ session['user'] }}</span></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash {{ category }}" style="padding: 10px; margin: 15px 0; border-radius: 5px; background: {% if category == 'danger' or category == 'error' %}#f8d7da; color: #721c24;{% else %}#d4edda; color: #155724;{% endif %}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <!-- Prediction Form Card -->
+        <div class="card">
+            <h2>🌱 Crop Yield Prediction</h2>
+            <form method="POST">
+                <input type="hidden" name="predict" value="1">
+                <input type="number" step="any" name="year" placeholder="Year" min="1997" max="2030" required>
+                <input type="number" step="any" name="area" placeholder="Area (hectares)" min="0" required>
+                <input type="number" step="any" name="production" placeholder="Production (tons)" min="0" required>
+                <input type="number" step="any" name="annual_rainfall" placeholder="Annual Rainfall (mm)" min="0" required>
+                <input type="number" step="any" name="fertilizer" placeholder="Fertilizer (kg - total amount)" min="0" required>
+                <input type="number" step="any" name="pesticide" placeholder="Pesticide (kg - total amount)" min="0" required>
+
+                <select name="crop" required>
+                    {% for crop in crop_dict.keys() %}
+                        <option value="{{ crop }}">{{ crop }}</option>
+                    {% endfor %}
+                </select>
+
+                <select name="season" required>
+                    {% for season in season_dict.keys() %}
+                        <option value="{{ season }}">{{ season }}</option>
+                    {% endfor %}
+                </select>
+
+                <select name="state" required>
+                    {% for state in state_dict.keys() %}
+                        <option value="{{ state }}">{{ state }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Predict</button>
+            </form>
+
+            {% if prediction_result %}
+                <p><strong>Predicted Yield:</strong> {{ prediction_result }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Feature Graph Card -->
+        <div class="card">
+            <h2>📊 Feature Graph</h2>
+            <form method="POST">
+                <input type="hidden" name="graph" value="1">
+                <label>X-axis:</label>
+                <select name="x_axis">
+                    {% for x in x_options %}
+                        <option value="{{ x }}" {% if x==selected_x %}selected{% endif %}>{{ x }}</option>
+                    {% endfor %}
+                </select>
+
+                <label>Y-axis:</label>
+                <select name="y_axis">
+                    {% for y in y_options %}
+                        <option value="{{ y }}" {% if y==selected_y %}selected{% endif %}>{{ y }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Show Graph</button>
+            </form>
+
+            {% if selected_x and selected_y %}
+                <h4>{{ selected_y }} vs {{ selected_x }}</h4>
+                <img src="{{ url_for('static', filename='feature_plot.png') }}" alt="Feature Graph">
+            {% endif %}
+        </div>
+
+    </div>
+</body>
+</html>

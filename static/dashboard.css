@@ -1,0 +1,87 @@
+/* General Body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e6f2e6; /* light green background */
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background-color: #4CAF50;
+    padding: 15px 0;
+    text-align: center;
+    color: white;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+header nav {
+    margin-top: 10px;
+}
+
+header nav a {
+    text-decoration: none;
+    color: white;
+    margin: 0 15px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Section Title */
+.section-title {
+    margin-top: 40px;
+    font-size: 22px;
+    border-left: 6px solid #4CAF50;
+    padding-left: 10px;
+    color: #333;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px 0;
+    background-color: #4CAF50;
+    color: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}

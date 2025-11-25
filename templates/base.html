@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Crop Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* ----- Basic Layout ----- */
+        body { margin: 0; font-family: Arial, sans-serif; display: flex; min-height: 100vh; }
+        .left, .right { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; position: relative; }
+        .left { background: linear-gradient(135deg, #6e8efb, #a777e3); color: white; text-align: center; }
+        .right { background: #f9f9f9; }
+        .form-container { width: 100%; max-width: 400px; }
+        h2 { margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        input { width: 100%; padding: 10px; box-sizing: border-box; }
+        button.btn { width: 100%; padding: 10px; background: #6e8efb; color: white; border: none; cursor: pointer; }
+        button.btn:hover { background: #576fdb; }
+        .extra-links { margin-top: 10px; text-align: center; }
+        .extra-links a { color: #6e8efb; text-decoration: none; }
+        .flash { padding: 10px; margin-bottom: 15px; border-radius: 5px; }
+        .flash.success { background: #d4edda; color: #155724; }
+        .flash.error { background: #f8d7da; color: #721c24; }
+
+        /* ----- Animated Background ----- */
+        .animated-bg { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(270deg, #6e8efb, #a777e3, #6ee7b7, #fbbd6e); background-size: 800% 800%; animation: gradientBG 15s ease infinite; z-index:-1; }
+        @keyframes gradientBG { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
+
+        .floating-shapes .shape { width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; position: absolute; animation: float 6s ease-in-out infinite; }
+        .floating-shapes .shape:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-shapes .shape:nth-child(2) { top: 40%; left: 70%; animation-delay: 2s; }
+        .floating-shapes .shape:nth-child(3) { top: 70%; left: 30%; animation-delay: 4s; }
+        @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-20px);} }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    {% block content %}{% endblock %}
+</body>
+</html>

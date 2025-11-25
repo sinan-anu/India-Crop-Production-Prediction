@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crop Yield Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('/static/image7.jpg');
+            background-size: cover;
+            background-position: center;
+            backdrop-filter: blur(4px);
+            height: 100vh;
+        }
+        .card {
+            margin-top: 50px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 0 10px #888;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card p-4">
+                <h2 class="text-center mb-4">🌾 Crop Yield Prediction</h2>
+
+                {% if result is defined %}
+                    <div class="alert alert-success text-center">
+                        🌱 <strong>Predicted Yield:</strong> {{ result | round(2) }} tons/hectare
+                    </div>
+                {% endif %}
+
+                <form method="POST" action="/predict">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Crop Year</label>
+                            <input type="number" class="form-control" name="crop_year" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Area (hectares)</label>
+                            <input type="number" step="0.01" class="form-control" name="area" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Production (tons)</label>
+                            <input type="number" step="0.01" class="form-control" name="production" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Annual Rainfall (mm)</label>
+                            <input type="number" step="0.01" class="form-control" name="annual_rainfall" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Fertilizer Used (kg/ha)</label>
+                            <input type="number" step="0.01" class="form-control" name="fertilizer" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Pesticide Used (kg/ha)</label>
+                            <input type="number" step="0.01" class="form-control" name="pesticide" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Crop</label>
+                            <select class="form-select" name="crop" required>
+                                {% for key, value in crop_dict.items() %}
+                                    <option value="{{ key }}">{{ key }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Season</label>
+                            <select class="form-select" name="season" required>
+                                {% for key, value in season_dict.items() %}
+                                    <option value="{{ key }}">{{ key.strip() }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">State</label>
+                            <select class="form-select" name="state" required>
+                                {% for key, value in state_dict.items() %}
+                                    <option value="{{ key }}">{{ key }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">🔍 Predict Yield</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

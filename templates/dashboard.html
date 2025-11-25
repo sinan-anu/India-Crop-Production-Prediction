@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Crop Yield Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Crop Yield Prediction Dashboard</h1>
+        <nav>
+            <a href="{{ url_for('prediction') }}">Predict</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+        <p>Welcome, {{ name }} ({{ email }})</p>
+    </header>
+
+    <div class="container">
+        <!-- Prediction History -->
+        <div class="section-title">Prediction History</div>
+        <table>
+            <tr>
+                <th>Crop</th>
+                <th>Season</th>
+                <th>State</th>
+                <th>Area (ha)</th>
+                <th>Production (tons)</th>
+                <th>Rainfall (mm)</th>
+                <th>Fertilizer (kg/ha)</th>
+                <th>Pesticide (kg/ha)</th>
+                <th>Yield (tons/ha)</th>
+                <th>Predicted On</th>
+            </tr>
+            {% for p in predictions %}
+            <tr>
+                <td>{{ p['crop'] }}</td>
+                <td>{{ p['season'] }}</td>
+                <td>{{ p['state'] }}</td>
+                <td>{{ p['area'] }}</td>
+                <td>{{ p['production'] }}</td>
+                <td>{{ p['annual_rainfall'] }}</td>
+                <td>{{ p['fertilizer'] }}</td>
+                <td>{{ p['pesticide'] }}</td>
+                <td>{{ p['yield_value'] }}</td>
+                <td>{{ p['created_at'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- Login / Logout History -->
+        <div class="section-title">Login / Logout History</div>
+        <table>
+            <tr>
+                <th>Login Time</th>
+                <th>Logout Time</th>
+            </tr>
+            {% for s in sessions_history %}
+            <tr>
+                <td>{{ s['login_time'] }}</td>
+                <td>{{ s['logout_time'] if s['logout_time'] else 'Still logged in' }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <footer>
+        &copy; 2025 Crop Yield Prediction Project | All Rights Reserved
+    </footer>
+</body>
+</html>

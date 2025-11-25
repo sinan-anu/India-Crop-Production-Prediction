@@ -1,0 +1,187 @@
+/* =======================
+   General Reset
+======================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =======================
+   Body
+======================= */
+body {
+    background: #d4edda; /* Light green background */
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* =======================
+   Main Heading
+======================= */
+.main-heading {
+    text-align: center;
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #27ae60; /* Green underline */
+    padding-bottom: 5px;
+}
+
+/* =======================
+   Centered Navbar
+======================= */
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background: #2c3e50;
+    padding: 10px 0;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.navbar li {
+    list-style: none;
+    font-weight: 500;
+    color: #ecf0f1;
+    display: flex;
+    align-items: center;
+}
+
+/* Navbar links */
+.navbar a {
+    text-decoration: none;
+    color: #ecf0f1;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.navbar a:hover,
+.navbar a.active {
+    background: #2e7d32; /* Dark green hover */
+    color: #fff;
+    border-color: #1b5e20; /* Darker green border on hover */
+}
+
+/* Separator styling with | */
+.navbar li:not(:last-child)::after {
+    content: "|";
+    color: #ecf0f1;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+/* User email styling */
+.user-mail {
+    color: #f1c40f;
+    font-weight: bold;
+}
+
+/* =======================
+   Container & Cards
+======================= */
+.container {
+    width: 95%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Card */
+.card, .prediction-form, .graph-section {
+    background: #ffffffdd; /* Semi-transparent white */
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 2px solid #27ae60; /* Green border */
+}
+
+/* Headings */
+h2 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* Forms */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Inputs & Selects */
+input[type="number"],
+select {
+    flex: 1 1 150px;
+    padding: 10px 12px;
+    border: 2px solid #27ae60; /* Green border */
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #1b5e20; /* Darker green */
+    box-shadow: 0 0 5px rgba(41,128,185,0.5);
+}
+
+/* Buttons */
+button {
+    padding: 10px 25px;
+    border: 2px solid #27ae60; /* Green border */
+    background: #27ae60;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #2ecc71; /* Lighter green hover */
+    border-color: #2ecc71;
+}
+
+/* Feature Graph Image */
+img {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 15px;
+    border-radius: 12px;
+    border: 2px solid #27ae60; /* Green border around graph */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Labels */
+label {
+    font-weight: bold;
+}
+
+/* Responsive Grid for Forms */
+@media (min-width: 768px) {
+    .card form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+        align-items: center;
+    }
+}
+
+/* Paragraphs */
+p {
+    margin-top: 15px;
+    font-size: 18px;
+}
