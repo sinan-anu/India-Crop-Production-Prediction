@@ -136,11 +136,9 @@
     <div class="container">
         <div class="header">
             <h1>🔐 Admin Dashboard</h1>
-            <p>View all users, their visits, and predictions</p>
+            <p>View users who made predictions, their visits, and predictions</p>
             <div class="nav-links">
-                <a href="{{ url_for('prediction') }}">Back to Prediction</a>
-                <a href="{{ url_for('about') }}">About</a>
-                <a href="{{ url_for('logout') }}">Logout</a>
+                <a href="{{ url_for('admin_logout') }}" style="color: #dc3545; font-weight: bold;">Admin Logout</a>
             </div>
         </div>
         
@@ -149,7 +147,7 @@
             <div class="stats">
                 <div class="stat-card">
                     <h3>{{ users|length }}</h3>
-                    <p>Total Users</p>
+                    <p>Users with Predictions</p>
                 </div>
                 <div class="stat-card">
                     <h3>{{ predictions|length }}</h3>
@@ -176,7 +174,7 @@
         
         <!-- Users Section -->
         <div class="section">
-            <h2>👥 All Users</h2>
+            <h2>👥 Users with Predictions</h2>
             <div class="table-container">
                 <table>
                     <thead>

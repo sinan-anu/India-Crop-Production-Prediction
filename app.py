@@ -14,6 +14,10 @@ import datetime
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
 
+# ---------- ADMIN CREDENTIALS ----------
+ADMIN_EMAIL = "sinankadukkuthi@gmail.com"  # Stored in lowercase for case-insensitive matching
+ADMIN_PASSWORD = "Sinan@123"
+
 # Custom Jinja2 filter for safe number formatting
 @app.template_filter('safe_format')
 def safe_format(value, format_str='%.2f'):
@@ -440,17 +444,37 @@ def prediction():
 def about():
     return render_template("about.html")
 
+# ---------- ADMIN LOGIN ----------
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        email = request.form["email"].strip().lower()
+        password = request.form["password"].strip()
+
+        # Check admin credentials
+        if email == ADMIN_EMAIL.lower() and password == ADMIN_PASSWORD:
+            session["admin"] = True
+            session["admin_email"] = email
+            flash("Admin login successful!", "success")
+            return redirect(url_for("admin"))
+        else:
+            flash("Invalid admin credentials. Access denied.", "error")
+            return redirect(url_for("admin_login"))
+
+    return render_template("admin_login.html")
+
 # ---------- ADMIN DASHBOARD ----------
 @app.route("/admin")
 def admin():
-    # Check if user is logged in
-    if "user" not in session:
-        return redirect(url_for("login"))
+    # Check if admin is authenticated
+    if "admin" not in session or not session.get("admin"):
+        flash("Please login as admin to access this page.", "error")
+        return redirect(url_for("admin_login"))
     
     try:
         conn = get_db_connection()
         
-        # Get all users with their visit count
+        # Get only users who have made predictions (entered prediction dashboard)
         try:
             users_data = conn.execute("""
                 SELECT 
@@ -462,8 +486,8 @@ def admin():
                     MAX(us.login_time) as last_login,
                     COUNT(DISTINCT p.id) as prediction_count
                 FROM users u
+                INNER JOIN predictions p ON u.id = p.user_id
                 LEFT JOIN user_sessions us ON u.id = us.user_id
-                LEFT JOIN predictions p ON u.id = p.user_id
                 GROUP BY u.id, u.firstname, u.lastname, u.email
                 ORDER BY u.id
             """).fetchall()
@@ -651,6 +675,14 @@ def logout():
     session.pop("user", None)
     flash("Logged out successfully.")
     return redirect(url_for("login"))
+
+# ---------- ADMIN LOGOUT ----------
+@app.route("/admin/logout")
+def admin_logout():
+    session.pop("admin", None)
+    session.pop("admin_email", None)
+    flash("Admin logged out successfully.", "success")
+    return redirect(url_for("admin_login"))
 
 if __name__ == "__main__":
     app.run(debug=True)
